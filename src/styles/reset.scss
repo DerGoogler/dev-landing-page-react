@@ -9,6 +9,11 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
+  user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: non;
 }
 
 body,
