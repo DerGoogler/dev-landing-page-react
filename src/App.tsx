@@ -1,3 +1,4 @@
+import { addListener, launch } from "devtools-detector";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { Component, ErrorInfo } from "react";
 import { createRoot } from "react-dom/client";
@@ -8,12 +9,13 @@ import LinkWrapper from "./components/LinkWrapper";
 import themeSelector from "./util/themeSelector";
 
 interface State {
-  links?: any[];
+  links: any[];
   config: {
     intro: string;
     tagline: string;
     theme: string;
   };
+  devToolsOpen: boolean;
 }
 
 interface Links {
@@ -31,6 +33,7 @@ class App extends Component<{}, State> {
         tagline: "",
         theme: "red-black",
       },
+      devToolsOpen: false,
     };
   }
 
@@ -51,25 +54,46 @@ class App extends Component<{}, State> {
     themeSelector(this.state.config.theme);
   };
 
+  public componentDidUpdate = () => {
+    addListener((isOpen) =>
+      isOpen
+        ? this.setState({ devToolsOpen: true })
+        : this.setState({ devToolsOpen: false })
+    );
+    launch();
+  };
+
   public render = () => {
-    const { links } = this.state;
+    const { links, devToolsOpen } = this.state;
     const { intro, tagline } = this.state.config;
 
-    return (
-      <main>
-        <div key="intro" className="intro">
-          {intro}
-        </div>
-        <div key="tagline" className="tagline">
-          {tagline}
-        </div>
-        <LinkWrapper key="icons-social">
-          {links?.map((item: Links) => {
-            return <LinkIcon key={item.icon} link={item.link} icon={item.icon} />;
-          })}
-        </LinkWrapper>
-      </main>
-    );
+    if (devToolsOpen) {
+      return (
+        <main>
+          <div key="intro" className="intro">
+            Turn off DevTools :)
+          </div>
+        </main>
+      );
+    } else {
+      return (
+        <main>
+          <div key="intro" className="intro">
+            {intro}
+          </div>
+          <div key="tagline" className="tagline">
+            {tagline}
+          </div>
+          <LinkWrapper key="icons-social">
+            {links?.map((item: Links) => {
+              return (
+                <LinkIcon key={item.icon} link={item.link} icon={item.icon} />
+              );
+            })}
+          </LinkWrapper>
+        </main>
+      );
+    }
   };
 
   public componentDidCatch = (error: Error, errorInfo: ErrorInfo) => {
