@@ -2,19 +2,22 @@ import { addListener, launch } from "devtools-detector";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { Component, ErrorInfo } from "react";
 import { createRoot } from "react-dom/client";
-import axios from "axios";
 import path from "path>web";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
 import themeSelector from "./util/themeSelector";
+import scriptjs from "scriptjs";
 
 interface State {
-  links: any[];
-  config: {
-    intro: string;
-    tagline: string;
-    theme: string;
+  all: {
+    links: any[];
+    config: {
+      intro: string;
+      tagline: string;
+      theme: string;
+    };
   };
+
   devToolsOpen: boolean;
 }
 
@@ -28,31 +31,24 @@ class App extends Component<{}, State> {
   public constructor(props: any) {
     super(props);
     this.state = {
-      links: [],
-      config: {
-        intro: "",
-        tagline: "",
-        theme: "red-black",
+      all: {
+        links: [],
+        config: {
+          intro: "",
+          tagline: "",
+          theme: "red-black",
+        },
       },
       devToolsOpen: false,
     };
   }
 
   public componentDidMount = () => {
-    axios
-      .get(path.getSubPath("/config.json"))
-      .then((response) => {
-        const data = response.data;
-        this.setState({
-          links: data.links,
-          config: data.config,
-        });
-      })
-      .catch((error) => {
-        window.alert(`There was an error!\n\nERROR: ${error}`);
-      });
+    scriptjs(path.getSubPath("dlp.config.js"), () => {
+      this.setState({ all: config });
+    });
 
-    themeSelector(this.state.config.theme);
+    themeSelector(this.state.all.config.theme);
   };
 
   public componentDidUpdate = () => {
@@ -63,8 +59,9 @@ class App extends Component<{}, State> {
   };
 
   public render = () => {
-    const { links, devToolsOpen } = this.state;
-    const { intro, tagline } = this.state.config;
+    const { devToolsOpen } = this.state;
+    const { links } = this.state.all;
+    const { intro, tagline } = this.state.all.config;
 
     if (devToolsOpen) {
       return (
@@ -86,7 +83,12 @@ class App extends Component<{}, State> {
           <LinkWrapper key="icons-social">
             {links?.map((item: Links) => {
               return (
-                <LinkIcon key={item.icon} link={item.link} icon={item.icon} title={item?.title} />
+                <LinkIcon
+                  key={item.icon}
+                  link={item.link}
+                  icon={item.icon}
+                  title={item?.title}
+                />
               );
             })}
           </LinkWrapper>

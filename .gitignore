@@ -2,7 +2,7 @@
 coverage/
 dist/*
 !dist/index.html
-!dist/config.json
+!dist/dlp.config.js
 !vscode/settings.json
 node_modules/
 cdn_modules/

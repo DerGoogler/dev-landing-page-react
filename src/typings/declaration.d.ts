@@ -1,4 +1,5 @@
 declare module "react-dom";
+declare module 'scriptjs';
 
 declare module "*.css" {
   const content: Record<string, string>;
