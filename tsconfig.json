@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "typeRoots": ["src/typings/global.d.ts"],
+    "types": ["node"],
     "sourceMap": true,
     "declaration": false,
     "strict": true,
@@ -16,7 +17,7 @@
     "allowJs": true,
     "jsx": "react-jsx",
     "paths": {
-      "path": ["./src/util/path.ts"]
+      "path>web": ["./src/util/path.ts"]
     }
   },
   "ts-node": {

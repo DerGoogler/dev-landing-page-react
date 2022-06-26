@@ -3,7 +3,7 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { Component, ErrorInfo } from "react";
 import { createRoot } from "react-dom/client";
 import axios from "axios";
-import path from "path";
+import path from "path>web";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
 import themeSelector from "./util/themeSelector";
@@ -21,6 +21,7 @@ interface State {
 interface Links {
   link: `https://${string}`;
   icon: IconName;
+  title: string;
 }
 
 class App extends Component<{}, State> {
@@ -55,12 +56,10 @@ class App extends Component<{}, State> {
   };
 
   public componentDidUpdate = () => {
-    addListener((isOpen) =>
-      isOpen
-        ? this.setState({ devToolsOpen: true })
-        : this.setState({ devToolsOpen: false })
-    );
-    launch();
+    if (process.env.NODE_ENV === "production") {
+      addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
+      launch();
+    }
   };
 
   public render = () => {
@@ -71,7 +70,7 @@ class App extends Component<{}, State> {
       return (
         <main>
           <div key="intro" className="intro">
-            Turn off DevTools :)
+            Turn off DevTools
           </div>
         </main>
       );
@@ -87,7 +86,7 @@ class App extends Component<{}, State> {
           <LinkWrapper key="icons-social">
             {links?.map((item: Links) => {
               return (
-                <LinkIcon key={item.icon} link={item.link} icon={item.icon} />
+                <LinkIcon key={item.icon} link={item.link} icon={item.icon} title={item?.title} />
               );
             })}
           </LinkWrapper>
@@ -101,8 +100,8 @@ class App extends Component<{}, State> {
     const root = createRoot(container!);
     root.render(
       <>
-        <div className="intro">{error}</div>
-        <div className="tagline">{errorInfo}</div>
+        <div className="intro">{error.toString()}</div>
+        <div className="tagline">{errorInfo.toString()}</div>
       </>
     );
   };
