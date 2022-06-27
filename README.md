@@ -50,33 +50,25 @@ Used [react-typescript-boilerplate][rtb] and [dev-landing-page][dlp]
 dlp.config.js
 
 ```js
-const config = {
-  config: {
-    intro: "Der_Googler",
-    tagline: "Frontend-Dev | Android Modder | Bullshit",
-    theme: "red-black",
-  },
-  links: [
-    {
-      icon: "github",
-      link: "https://github.com/DerGoogler",
+function config(platform) {
+  return {
+    config: {
+      intro: "default",
+      tagline: `gg | ff | Backend`,
+      theme: "white-red",
     },
-    {
-      icon: "instagram",
-      link: "https://instagram.com/der_googler",
-    },
-    {
-      icon: "telegram",
-      link: "https://t.me/Der_Googler",
-    },
-    {
-      icon: "snapchat",
-      link: "https://snapchat.com/add/Der_Googler",
-    },
-    {
-      icon: "tiktok",
-      link: "https://tiktok.com/@Der_Googler",
-    },
-  ],
-};
+    links: [
+      {
+        icon: "github",
+        link: "https://github.com/DerGoogler",
+      },
+      // Shows only when not opened in Instagram browser
+      {
+        icon: "instagram",
+        hide: platform.isInstagram,
+        link: "https://instagram.com/der_googler",
+      },
+    ],
+  };
+}
 ```
