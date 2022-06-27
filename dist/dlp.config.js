@@ -1,17 +1,19 @@
-const config = {
-  config: {
-    intro: "Sample",
-    tagline: "gg | ff | ff",
-    theme: "white-red",
-  },
-  links: [
-    {
-      icon: "github",
-      link: "https://github.com/DerGoogler",
+function config() {
+  return {
+    config: {
+      intro: "default",
+      tagline: `gg | ff | Backend`,
+      theme: "white-red",
     },
-    {
-      icon: "instagram",
-      link: "https://instagram.com/der_googler",
-    },
-  ],
-};
+    links: [
+      {
+        icon: "github",
+        link: "https://github.com/DerGoogler",
+      },
+      {
+        icon: "instagram",
+        link: "https://instagram.com/der_googler",
+      },
+    ],
+  };
+}

@@ -7,6 +7,13 @@ import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
 import themeSelector from "./util/themeSelector";
 import scriptjs from "scriptjs";
+import { browsers } from "./util/browsers";
+import {
+  fullBrowserVersion,
+  getUA,
+  osName,
+  osVersion,
+} from "react-device-detect";
 
 interface State {
   all: {
@@ -45,7 +52,17 @@ class App extends Component<{}, State> {
 
   public componentDidMount = () => {
     scriptjs(path.getSubPath("dlp.config.js"), () => {
-      this.setState({ all: config });
+      this.setState({
+        all: config({
+          isInstagram: /Instagram/i.test(window.navigator.userAgent),
+          isFacebook: /Facebook/i.test(window.navigator.userAgent),
+          ...browsers,
+          osVersion: osVersion,
+          osName: osName,
+          fullBrowserVersion: fullBrowserVersion,
+          getUA: getUA,
+        }),
+      });
     });
 
     themeSelector(this.state.all.config.theme);
