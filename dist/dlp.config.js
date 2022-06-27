@@ -1,4 +1,4 @@
-function config() {
+function config(platform) {
   return {
     config: {
       intro: "default",
@@ -10,8 +10,10 @@ function config() {
         icon: "github",
         link: "https://github.com/DerGoogler",
       },
+      // Shows only when not opened in Instagram browser
       {
         icon: "instagram",
+        hide: platform.isInstagram,
         link: "https://instagram.com/der_googler",
       },
     ],

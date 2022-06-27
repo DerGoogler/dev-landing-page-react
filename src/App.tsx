@@ -32,6 +32,7 @@ interface Links {
   link: `https://${string}`;
   icon: IconName;
   title: string;
+  hide: boolean;
 }
 
 class App extends Component<{}, State> {
@@ -52,10 +53,12 @@ class App extends Component<{}, State> {
 
   public componentDidMount = () => {
     scriptjs(path.getSubPath("dlp.config.js"), () => {
+      const isInstagram = /Instagram/i.test(window.navigator.userAgent);
+      const isFacebook = /Facebook/i.test(window.navigator.userAgent);
       this.setState({
         all: config({
-          isInstagram: /Instagram/i.test(window.navigator.userAgent),
-          isFacebook: /Facebook/i.test(window.navigator.userAgent),
+          isInstagram: isInstagram,
+          isFacebook: isFacebook,
           ...browsers,
           osVersion: osVersion,
           osName: osName,
@@ -99,14 +102,18 @@ class App extends Component<{}, State> {
           </div>
           <LinkWrapper key="icons-social">
             {links?.map((item: Links) => {
-              return (
-                <LinkIcon
-                  key={item.icon}
-                  link={item.link}
-                  icon={item.icon}
-                  title={item?.title}
-                />
-              );
+              if (!item?.hide) {
+                return (
+                  <LinkIcon
+                    key={item?.icon}
+                    link={item?.link}
+                    icon={item?.icon}
+                    title={item?.title}
+                  />
+                );
+              } else {
+                return null;
+              }
             })}
           </LinkWrapper>
         </main>
