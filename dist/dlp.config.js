@@ -1,10 +1,8 @@
 function config(platform) {
   return {
-    config: {
-      intro: "default",
-      tagline: `gg | ff | Backend`,
-      theme: "white-red",
-    },
+    intro: "default",
+    tagline: `gg | ff | Backend`,
+    theme: "yellow-black",
     links: [
       {
         icon: "github",

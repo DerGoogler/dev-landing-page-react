@@ -1,15 +1,6 @@
 export {};
 
 declare global {
-  interface IConfig {
-    config: {
-      intro: string;
-      tagline: string;
-      theme: string;
-    };
-    links: any[];
-  }
-
   interface IPlatform {
     isInstagram?: boolean;
     isFacebook?: boolean;
@@ -57,6 +48,4 @@ declare global {
     isMIUI?: boolean;
     isSamsungBrowser?: boolean;
   }
-
-  function config(platform: IPlatform): IConfig;
 }

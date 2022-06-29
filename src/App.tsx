@@ -16,15 +16,10 @@ import {
 } from "react-device-detect";
 
 interface State {
-  all: {
-    links: any[];
-    config: {
-      intro: string;
-      tagline: string;
-      theme: string;
-    };
-  };
-
+  intro?: string;
+  tagline?: string;
+  theme?: string;
+  links?: Links[];
   devToolsOpen: boolean;
 }
 
@@ -35,18 +30,19 @@ interface Links {
   hide: boolean;
 }
 
+interface Config {
+  intro: string;
+  tagline: string;
+  theme: string;
+  links: Links[];
+}
+
+declare function config(platform: IPlatform): Config;
+
 class App extends Component<{}, State> {
   public constructor(props: any) {
     super(props);
     this.state = {
-      all: {
-        links: [],
-        config: {
-          intro: "",
-          tagline: "",
-          theme: "red-black",
-        },
-      },
       devToolsOpen: false,
     };
   }
@@ -55,8 +51,8 @@ class App extends Component<{}, State> {
     scriptjs(path.getSubPath("dlp.config.js"), () => {
       const isInstagram = /Instagram/i.test(window.navigator.userAgent);
       const isFacebook = /Facebook/i.test(window.navigator.userAgent);
-      this.setState({
-        all: config({
+      this.setState(
+        config({
           isInstagram: isInstagram,
           isFacebook: isFacebook,
           ...browsers,
@@ -64,11 +60,11 @@ class App extends Component<{}, State> {
           osName: osName,
           fullBrowserVersion: fullBrowserVersion,
           getUA: getUA,
-        }),
-      });
+        })
+      );
     });
 
-    themeSelector(this.state.all.config.theme);
+    themeSelector(this.state.theme);
   };
 
   public componentDidUpdate = () => {
@@ -79,9 +75,7 @@ class App extends Component<{}, State> {
   };
 
   public render = () => {
-    const { devToolsOpen } = this.state;
-    const { links } = this.state.all;
-    const { intro, tagline } = this.state.all.config;
+    const { intro, tagline, links, devToolsOpen } = this.state;
 
     if (devToolsOpen) {
       return (

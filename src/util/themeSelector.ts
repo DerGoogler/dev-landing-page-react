@@ -15,7 +15,7 @@ function set(style: any) {
   jss.createStyleSheet(style).attach();
 }
 
-function themeSelector(themes: string) {
+function themeSelector(themes: string | undefined) {
   switch (themes) {
     case "green-white":
       set(GreenWhite);
