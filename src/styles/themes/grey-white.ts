@@ -1,4 +1,6 @@
-export const GreyWhite: any = {
+import { ThemeType } from "../../util/themeSelector";
+
+export const GreyWhite: ThemeType = {
   "@global": {
     main: {
       background: "#485564",

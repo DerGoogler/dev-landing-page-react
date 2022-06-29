@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import path from "path>web";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
-import themeSelector from "./util/themeSelector";
+import themeSelector, { Themes, Themes_ } from "./util/themeSelector";
 import scriptjs from "scriptjs";
 import { browsers } from "./util/browsers";
 import {
@@ -14,6 +14,7 @@ import {
   osName,
   osVersion,
 } from "react-device-detect";
+import ThemeSelector from "./util/themeSelector";
 
 interface State {
   intro?: string;
@@ -37,7 +38,7 @@ interface Config {
   links: Links[];
 }
 
-declare function config(platform: IPlatform): Config;
+declare function config(platform: IPlatform, Themes: Themes_): Config;
 
 class App extends Component<{}, State> {
   public constructor(props: any) {
@@ -52,22 +53,24 @@ class App extends Component<{}, State> {
       const isInstagram = /Instagram/i.test(window.navigator.userAgent);
       const isFacebook = /Facebook/i.test(window.navigator.userAgent);
       this.setState(
-        config({
-          isInstagram: isInstagram,
-          isFacebook: isFacebook,
-          ...browsers,
-          osVersion: osVersion,
-          osName: osName,
-          fullBrowserVersion: fullBrowserVersion,
-          getUA: getUA,
-        })
+        config(
+          {
+            isInstagram: isInstagram,
+            isFacebook: isFacebook,
+            ...browsers,
+            osVersion: osVersion,
+            osName: osName,
+            fullBrowserVersion: fullBrowserVersion,
+            getUA: getUA,
+          },
+          Themes
+        )
       );
     });
-
-    themeSelector(this.state.theme);
   };
 
   public componentDidUpdate = () => {
+    new ThemeSelector(this.state.theme);
     if (process.env.NODE_ENV === "production") {
       addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
       launch();

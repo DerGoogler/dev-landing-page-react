@@ -1,8 +1,8 @@
-function config(platform) {
+function config(platform, theme) {
   return {
-    intro: "default",
-    tagline: `gg | ff | Backend`,
-    theme: "yellow-black",
+    intro: "Sample Name",
+    tagline: `Cool | Frontend | Backend`,
+    theme: theme.YellowBlack,
     links: [
       {
         icon: "github",

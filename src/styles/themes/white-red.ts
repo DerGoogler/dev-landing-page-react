@@ -1,4 +1,6 @@
-export const WhiteRed: any = {
+import { ThemeType } from "../../util/themeSelector";
+
+export const WhiteRed: ThemeType = {
   "@global": {
     main: {
       background: "#ededed",

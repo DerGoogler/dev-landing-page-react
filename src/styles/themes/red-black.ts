@@ -1,4 +1,6 @@
-export const RedBlack: any = {
+import { ThemeType } from "../../util/themeSelector";
+
+export const RedBlack: ThemeType = {
   "@global": {
     main: {
       background: "#af3d4e",

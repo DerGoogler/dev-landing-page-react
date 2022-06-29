@@ -1,4 +1,6 @@
-export const WhiteIndigo: any = {
+import { ThemeType } from "../../util/themeSelector";
+
+export const WhiteIndigo: ThemeType = {
   "@global": {
     main: {
       background: "#e8eaf6",

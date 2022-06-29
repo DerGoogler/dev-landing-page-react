@@ -1,4 +1,6 @@
-export const YellowBlack: any = {
+import { ThemeType } from "../../util/themeSelector";
+
+export const YellowBlack: ThemeType = {
   "@global": {
     main: {
       background: "#ffeb3b",

@@ -1,4 +1,6 @@
-export const WhiteBlue: any = {
+import { ThemeType } from "../../util/themeSelector";
+
+export const WhiteBlue: ThemeType = {
   "@global": {
     main: {
       background: "#fafafa",
