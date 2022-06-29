@@ -8,6 +8,7 @@ Used [react-typescript-boilerplate][rtb] and [dev-landing-page][dlp]
 
 ## Usage
 
+<!-- prettier-ignore -->
 ```html
 <!DOCTYPE html>
 <html>
@@ -15,32 +16,16 @@ Used [react-typescript-boilerplate][rtb] and [dev-landing-page][dlp]
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Me | Your Name</title>
-
-    <link
-      rel="icon"
-      href="https://avatars.githubusercontent.com/u/54764558?v=4"
-      type="image/png"
-    />
-
-    <link
-      href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.dergoogler.com/internal/dlp/bundle/vendor.bundle.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.dergoogler.com/internal/dlp/bundle/app.bundle.css"
-    />
+  
+    <title>Me | Der_Googler</title>
+  
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/54764558?v=4" type="image/png" />
+  
+    <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.dergoogler.com/internal/dlp/bundle/vendor.bundle.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.dergoogler.com/internal/dlp/bundle/app.bundle.css" />
   </head>
   <body>
-    <app></app>
     <script src="https://cdn.dergoogler.com/internal/dlp/bundle/vendor.bundle.js"></script>
     <script src="https://cdn.dergoogler.com/internal/dlp/bundle/app.bundle.js"></script>
   </body>
@@ -50,13 +35,11 @@ Used [react-typescript-boilerplate][rtb] and [dev-landing-page][dlp]
 dlp.config.js
 
 ```js
-function config(platform) {
+function config(platform, theme) {
   return {
-    config: {
-      intro: "default",
-      tagline: `gg | ff | Backend`,
-      theme: "white-red",
-    },
+    intro: "Sample Name",
+    tagline: `Cool | Frontend | Backend`,
+    theme: theme.YellowBlack,
     links: [
       {
         icon: "github",
