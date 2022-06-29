@@ -1,11 +1,11 @@
 import { addListener, launch } from "devtools-detector";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { Component, ErrorInfo } from "react";
+import { Component, ErrorInfo, ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import path from "path>web";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
-import themeSelector, { Themes, Themes_ } from "./util/themeSelector";
+import { Themes, Themes_ } from "./util/themeSelector";
 import scriptjs from "scriptjs";
 import { browsers } from "./util/browsers";
 import {
@@ -128,6 +128,28 @@ class App extends Component<{}, State> {
       </>
     );
   };
+
+  public static render<E extends Element = Element>(
+    component: ReactNode,
+    prevents: Array<string>
+  ) {
+    // Setup root node where our React app will be attached to
+    // @ts-ignore
+    const app = document.createElement(component?.name);
+    document.body.prepend(app);
+
+    // Render the app component
+    // @ts-ignore
+    const container = document.querySelector<E>(component?.name);
+    const root = createRoot(container!);
+    root.render(component);
+    prevents.map((item) => {
+      window.addEventListener(item, (e: Event) => {
+        e.preventDefault();
+        console.info(`${item} is prevented from using`);
+      });
+    });
+  }
 }
 
 export default App;

@@ -10,8 +10,4 @@ import "./styles/styles.scss";
 // Add brands icons
 library.add(fab);
 
-const container = document.querySelector("app");
-const root = createRoot(container!);
-root.render(<App />);
-
-preventer(["contextmenu", "mousedown"]);
+App.render(<App />, ["contextmenu", "mousedown"]);
