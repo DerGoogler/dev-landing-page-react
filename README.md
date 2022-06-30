@@ -55,3 +55,13 @@ function config(platform, theme) {
   };
 }
 ```
+
+## Building
+
+```bash
+# Buuild development
+make dev
+
+# Build production
+make dev
+```
