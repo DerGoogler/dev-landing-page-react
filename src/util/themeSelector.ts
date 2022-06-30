@@ -42,43 +42,50 @@ export const Themes: Themes_ = {
   YellowBlack: "yellow-black",
 };
 
+/**
+ * The ThemeSelector class selects an theme from the config file or an custom theme object.
+ */
 class ThemeSelector {
-  public constructor(theme: string | undefined) {
-    switch (theme) {
-      case Themes.GreenWhite:
-        this.useTheme(GreenWhite);
-        break;
-      case Themes.GreenWhite:
-        this.useTheme(GreenWhite);
-        break;
-      case Themes.IndigoWhite:
-        this.useTheme(IndigoWhite);
-        break;
-      case Themes.RedBlack:
-        this.useTheme(RedBlack);
-        break;
-      case Themes.RedWhite:
-        this.useTheme(RedWhite);
-        break;
-      case Themes.WhiteBlue:
-        this.useTheme(WhiteBlue);
-        break;
-      case Themes.WhiteGrey:
-        this.useTheme(WhiteGrey);
-        break;
-      case Themes.WhiteIndigo:
-        this.useTheme(WhiteIndigo);
-        break;
-      case Themes.WhiteRed:
-        this.useTheme(WhiteRed);
-        break;
-      case Themes.YellowBlack:
-        this.useTheme(YellowBlack);
-        break;
-      default:
-        console.log("Unknown theme: " + theme);
-        this.useTheme(RedBlack);
-        break;
+  public constructor(theme: string | undefined | ThemeType) {
+    if (typeof theme == "object") {
+      this.useTheme(theme);
+    } else {
+      switch (theme) {
+        case Themes.GreenWhite:
+          this.useTheme(GreenWhite);
+          break;
+        case Themes.GreenWhite:
+          this.useTheme(GreenWhite);
+          break;
+        case Themes.IndigoWhite:
+          this.useTheme(IndigoWhite);
+          break;
+        case Themes.RedBlack:
+          this.useTheme(RedBlack);
+          break;
+        case Themes.RedWhite:
+          this.useTheme(RedWhite);
+          break;
+        case Themes.WhiteBlue:
+          this.useTheme(WhiteBlue);
+          break;
+        case Themes.WhiteGrey:
+          this.useTheme(WhiteGrey);
+          break;
+        case Themes.WhiteIndigo:
+          this.useTheme(WhiteIndigo);
+          break;
+        case Themes.WhiteRed:
+          this.useTheme(WhiteRed);
+          break;
+        case Themes.YellowBlack:
+          this.useTheme(YellowBlack);
+          break;
+        default:
+          console.log("Unknown theme: " + theme);
+          this.useTheme(RedBlack);
+          break;
+      }
     }
   }
 

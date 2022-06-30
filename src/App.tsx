@@ -2,12 +2,12 @@ import { addListener, launch } from "devtools-detector";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { createRoot } from "react-dom/client";
+import { browsers } from "./util/browsers";
+import { Themes, Themes_, ThemeType } from "./util/themeSelector";
 import path from "path>web";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
-import { Themes, Themes_ } from "./util/themeSelector";
 import scriptjs from "scriptjs";
-import { browsers } from "./util/browsers";
 import {
   fullBrowserVersion,
   getUA,
@@ -19,7 +19,7 @@ import ThemeSelector from "./util/themeSelector";
 interface State {
   intro?: string;
   tagline?: string;
-  theme?: string;
+  theme?: string | ThemeType;
   links?: Links[];
   devToolsOpen: boolean;
 }
@@ -34,7 +34,7 @@ interface Links {
 interface Config {
   intro: string;
   tagline: string;
-  theme: string;
+  theme: string | ThemeType;
   links: Links[];
 }
 
@@ -70,7 +70,10 @@ class App extends Component<{}, State> {
   };
 
   public componentDidUpdate = () => {
-    new ThemeSelector(this.state.theme);
+    // Select pre-created theme or make yourself one
+    const { theme } = this.state;
+    new ThemeSelector(theme);
+
     if (process.env.NODE_ENV === "production") {
       addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
       launch();
@@ -129,18 +132,13 @@ class App extends Component<{}, State> {
     );
   };
 
-  public static render<E extends Element = Element>(
-    component: ReactNode,
-    prevents: Array<string>
-  ) {
+  public static render(component: ReactNode, prevents: Array<string>) {
     // Setup root node where our React app will be attached to
-    // @ts-ignore
-    const app = document.createElement(component?.name);
+    const app = document.createElement("app");
     document.body.prepend(app);
 
     // Render the app component
-    // @ts-ignore
-    const container = document.querySelector<E>(component?.name);
+    const container = document.querySelector<Element>("app");
     const root = createRoot(container!);
     root.render(component);
     prevents.map((item) => {

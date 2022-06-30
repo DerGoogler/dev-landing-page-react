@@ -3,6 +3,7 @@
 &::-webkit-scrollbar {
   display: none;
 }
+
 html {
   font-family: "Roboto", sans-serif;
 }
@@ -12,6 +13,7 @@ html {
     padding: 10px;
   }
 }
+
 main {
   display: flex;
   flex-direction: column;
@@ -30,6 +32,7 @@ main {
     font-weight: 100;
   }
 }
+
 .devto {
   margin-bottom: -0.2rem;
   svg {
@@ -39,21 +42,25 @@ main {
     height: 2.65rem;
   }
 }
+
 @media (min-width: 576px) {
   html {
     font-size: 14px;
   }
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
+
 @media (min-width: 992px) {
   html {
     font-size: 18px;
   }
 }
+
 @media (min-width: 1200px) {
   html {
     font-size: 20px;

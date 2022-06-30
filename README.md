@@ -32,7 +32,7 @@ Used [react-typescript-boilerplate][rtb] and [dev-landing-page][dlp]
 </html>
 ```
 
-dlp.config.js
+## Configuration
 
 ```js
 function config(platform, theme) {
@@ -52,6 +52,28 @@ function config(platform, theme) {
         link: "https://instagram.com/der_googler",
       },
     ],
+  };
+}
+```
+
+### Custom themes
+
+```js
+function config(platform, theme) {
+  return {
+    // ...
+    theme: {
+      "@global": {
+        main: {
+          background: "#0076ff",
+          color: "#fff",
+        },
+        ".iconColor": {
+          color: "#fff",
+        },
+      },
+    },
+    // ...
   };
 }
 ```

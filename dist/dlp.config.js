@@ -2,7 +2,17 @@ function config(platform, theme) {
   return {
     intro: "Sample Name",
     tagline: `Cool | Frontend | Backend`,
-    theme: theme.YellowBlack,
+    theme: {
+      "@global": {
+        main: {
+          background: "#0076ff",
+          color: "#fff",
+        },
+        ".iconColor": {
+          color: "#fff",
+        },
+      },
+    },
     links: [
       {
         icon: "github",
