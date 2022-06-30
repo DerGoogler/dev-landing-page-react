@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { browsers } from "./util/browsers";
 import { Themes, Themes_, ThemeType } from "./util/themeSelector";
 import path from "path>web";
+import pkg from "./../package.json";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
 import scriptjs from "scriptjs";
@@ -15,6 +16,7 @@ import {
   osVersion,
 } from "react-device-detect";
 import ThemeSelector from "./util/themeSelector";
+import AppRoot from "./AppRoot";
 
 interface State {
   intro?: string;
@@ -133,14 +135,16 @@ class App extends Component<{}, State> {
   };
 
   public static render(component: ReactNode, prevents: Array<string>) {
+    const { name } = pkg;
     // Setup root node where our React app will be attached to
-    const app = document.createElement("app");
+    const app = document.createElement(name);
     document.body.prepend(app);
 
     // Render the app component
-    const container = document.querySelector<Element>("app");
+    const container = document.querySelector<Element>(name);
     const root = createRoot(container!);
     root.render(component);
+    customElements.define(name, AppRoot);
     prevents.map((item) => {
       window.addEventListener(item, (e: Event) => {
         e.preventDefault();
