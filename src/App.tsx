@@ -16,7 +16,6 @@ import {
   osVersion,
 } from "react-device-detect";
 import ThemeSelector from "./util/themeSelector";
-import AppRoot from "./AppRoot";
 
 interface State {
   intro?: string;
@@ -144,7 +143,6 @@ class App extends Component<{}, State> {
     const container = document.querySelector<Element>(name);
     const root = createRoot(container!);
     root.render(component);
-    customElements.define(name, AppRoot);
     prevents.map((item) => {
       window.addEventListener(item, (e: Event) => {
         e.preventDefault();
