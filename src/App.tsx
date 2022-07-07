@@ -4,10 +4,10 @@ import { Component, ErrorInfo, ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { browsers } from "./util/browsers";
 import { Themes, Themes_, ThemeType } from "./util/themeSelector";
-import path from "path>web";
 import pkg from "./../package.json";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
+import { _decode, _encode } from "bota64/lib/cjs/core";
 import scriptjs from "scriptjs";
 import {
   fullBrowserVersion,
@@ -16,6 +16,8 @@ import {
   osVersion,
 } from "react-device-detect";
 import ThemeSelector from "./util/themeSelector";
+import { Dom, Link } from "googlers-tools";
+import InternalLogger from "googlers-tools/dist/internal/Logger";
 
 interface State {
   intro?: string;
@@ -39,18 +41,27 @@ interface Config {
   links: Links[];
 }
 
+/**
+ * Gets the config file data
+ * @param platform
+ * @param Themes
+ */
 declare function config(platform: IPlatform, Themes: Themes_): Config;
 
 class App extends Component<{}, State> {
+  private log: InternalLogger;
+
   public constructor(props: any) {
     super(props);
     this.state = {
       devToolsOpen: false,
     };
+
+    this.log = new Dom.Logger(this.constructor.name);
   }
 
   public componentDidMount = () => {
-    scriptjs(path.getSubPath("dlp.config.js"), () => {
+    scriptjs(Link.getSubPath("dlp.config.js"), () => {
       const isInstagram = /Instagram/i.test(window.navigator.userAgent);
       const isFacebook = /Facebook/i.test(window.navigator.userAgent);
       this.setState(
@@ -77,7 +88,18 @@ class App extends Component<{}, State> {
 
     if (process.env.NODE_ENV === "production") {
       addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
+      this.log.info<JSX.Element>(
+        <div style={{ color: "red", fontStyle: "bold" }}>
+          Running in production mode!
+        </div>
+      );
       launch();
+    } else {
+      this.log.info<JSX.Element>(
+        <div style={{ color: "red", fontStyle: "bold" }}>
+          Running in development mode!
+        </div>
+      );
     }
   };
 
@@ -135,20 +157,16 @@ class App extends Component<{}, State> {
 
   public static render(component: ReactNode, prevents: Array<string>) {
     const { name } = pkg;
+    const en = _encode(name);
     // Setup root node where our React app will be attached to
-    const app = document.createElement(name);
+    const app = document.createElement(en);
     document.body.prepend(app);
 
     // Render the app component
-    const container = document.querySelector<Element>(name);
+    const container = document.querySelector<Element>(en);
     const root = createRoot(container!);
     root.render(component);
-    prevents.map((item) => {
-      window.addEventListener(item, (e: Event) => {
-        e.preventDefault();
-        console.info(`${item} is prevented from using`);
-      });
-    });
+    Dom.preventer(prevents);
   }
 }
 

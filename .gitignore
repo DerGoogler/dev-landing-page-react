@@ -4,9 +4,14 @@ dist/*
 !dist/index.html
 !dist/dlp.config.js
 !vscode/settings.json
+*.log
+
+# --
+package-lock.json
+bun.lockb
+node_modules.bun
 node_modules/
 cdn_modules/
-*.log
 
 # OS generated files
 .DS_Store
