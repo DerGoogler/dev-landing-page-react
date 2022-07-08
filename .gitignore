@@ -2,7 +2,7 @@
 coverage/
 dist/*
 !dist/index.html
-!dist/dlp.config.js
+!dist/dlp.config.yaml
 !vscode/settings.json
 *.log
 

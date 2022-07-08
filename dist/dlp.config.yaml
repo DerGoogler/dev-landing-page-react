@@ -1,0 +1,16 @@
+---
+intro: Sample Name
+tagline: Cool | Frontend | Backend
+theme:
+  "@global":
+    main:
+      background: "#0076ff"
+      color: "#fff"
+    ".iconColor":
+      color: "#fff"
+links:
+  - icon: github
+    link: https://github.com/DerGoogler
+  - icon: instagram
+    hideIn: Instagram
+    link: https://instagram.com/der_googler

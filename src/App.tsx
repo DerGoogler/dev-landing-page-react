@@ -11,6 +11,8 @@ import LinkWrapper from "./components/LinkWrapper";
 import scriptjs from "scriptjs";
 import ThemeSelector from "./util/themeSelector";
 import InternalLogger from "googlers-tools/dist/internal/Logger";
+import axios from "axios";
+import yaml from "js-yaml";
 
 interface States {
   intro?: string;
@@ -25,7 +27,7 @@ interface Links {
   link: `https://${string}`;
   icon: IconName;
   title: string;
-  hide: boolean;
+  hideIn: string | undefined;
 }
 
 interface Config {
@@ -34,13 +36,6 @@ interface Config {
   theme: string | ThemeType;
   links: Links[];
 }
-
-/**
- * Gets the config file data
- * @param platform
- * @param Themes
- */
-declare function config(platform: IPlatform, Themes: Themes_): Config;
 
 class App extends Component<{}, States> {
   private log: InternalLogger;
@@ -57,24 +52,16 @@ class App extends Component<{}, States> {
   }
 
   public componentDidMount = () => {
-    scriptjs(Link.getSubPath("dlp.config.js"), () => {
-      const isInstagram = /Instagram/i.test(window.navigator.userAgent);
-      const isFacebook = /Facebook/i.test(window.navigator.userAgent);
-      this.setState(
-        config(
-          {
-            isInstagram: isInstagram,
-            isFacebook: isFacebook,
-            ...browsers,
-            osVersion: osVersion,
-            osName: osName,
-            fullBrowserVersion: fullBrowserVersion,
-            getUA: getUA,
-          },
-          Themes
-        )
-      );
-    });
+    // Make a request for a user with a given ID
+    axios
+      .get(Link.getSubPath("dlp.config.yaml"))
+      .then((response) => {
+        this.setState(yaml.load(response.data));
+      })
+      .catch((error) => {
+        Dom.render(<h1>ERROR: {error}</h1>, "app");
+      })
+      .then(() => {});
   };
 
   public componentDidUpdate = () => {
@@ -113,7 +100,9 @@ class App extends Component<{}, States> {
           </div>
           <LinkWrapper key="icons-social">
             {links?.map((item: Links) => {
-              if (!item?.hide) {
+              const ua = navigator.userAgent || navigator.vendor;
+              const is = ua.indexOf(item.hideIn!) > -1 ? true : false;
+              if (!is) {
                 return <LinkIcon key={item?.icon} link={item?.link} icon={item?.icon} title={item?.title} />;
               } else {
                 return null;
