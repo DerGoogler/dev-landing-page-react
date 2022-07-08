@@ -11,7 +11,6 @@ import LinkWrapper from "./components/LinkWrapper";
 import scriptjs from "scriptjs";
 import ThemeSelector from "./util/themeSelector";
 import InternalLogger from "googlers-tools/dist/internal/Logger";
-import axios from "axios";
 import yaml from "js-yaml";
 
 interface States {
@@ -30,13 +29,6 @@ interface Links {
   hideIn: string | undefined;
 }
 
-interface Config {
-  intro: string;
-  tagline: string;
-  theme: string | ThemeType;
-  links: Links[];
-}
-
 class App extends Component<{}, States> {
   private log: InternalLogger;
   public displayName: string = "Application";
@@ -52,16 +44,12 @@ class App extends Component<{}, States> {
   }
 
   public componentDidMount = () => {
-    // Make a request for a user with a given ID
-    axios
-      .get(Link.getSubPath("dlp.config.yaml"))
-      .then((response) => {
-        this.setState(yaml.load(response.data));
-      })
-      .catch((error) => {
-        Dom.render(<h1>ERROR: {error}</h1>, "app");
-      })
-      .then(() => {});
+    Link.request(Link.getSubPath("dlp.config.yaml"), (status, response) => {
+      if (status === 200) {
+        console.log(yaml.load(response));
+        this.setState(yaml.load(response));
+      }
+    });
   };
 
   public componentDidUpdate = () => {
@@ -70,9 +58,9 @@ class App extends Component<{}, States> {
     new ThemeSelector(theme);
 
     if (process.env.NODE_ENV === "production") {
-      addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
+      // addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
       this.log.info<JSX.Element>(<div style={{ color: "red", fontStyle: "bold" }}>Running in production mode!</div>);
-      launch();
+      // launch();
     } else {
       this.log.info<JSX.Element>(<div style={{ color: "red", fontStyle: "bold" }}>Running in development mode!</div>);
     }
