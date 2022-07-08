@@ -1,7 +1,7 @@
-import App from "./App";
+import { Dom as dom } from "googlers-tools";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { Dom as dom } from "googlers-tools";
+import App from "./App";
 
 // Styles
 import "./styles/reset.scss";
@@ -11,4 +11,4 @@ import "./styles/styles.scss";
 library.add(fab);
 
 dom.preventer(["contextmenu", "mousedown"]);
-dom.render(<App />, "app");
+dom.renderAuto(App);

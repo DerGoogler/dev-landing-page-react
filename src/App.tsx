@@ -1,30 +1,24 @@
 import { addListener, launch } from "devtools-detector";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { Component, ErrorInfo, ReactNode } from "react";
-import { createRoot } from "react-dom/client";
+import { Component, ComponentClass } from "react";
 import { browsers } from "./util/browsers";
 import { Themes, Themes_, ThemeType } from "./util/themeSelector";
-import pkg from "./../package.json";
+import { _decode, _encode } from "bota64/lib/cjs/core";
+import { fullBrowserVersion, getUA, osName, osVersion } from "react-device-detect";
+import { Dom, Link } from "googlers-tools";
 import LinkIcon from "./components/LinkIcon";
 import LinkWrapper from "./components/LinkWrapper";
-import { _decode, _encode } from "bota64/lib/cjs/core";
 import scriptjs from "scriptjs";
-import {
-  fullBrowserVersion,
-  getUA,
-  osName,
-  osVersion,
-} from "react-device-detect";
 import ThemeSelector from "./util/themeSelector";
-import { Dom, Link } from "googlers-tools";
 import InternalLogger from "googlers-tools/dist/internal/Logger";
 
-interface State {
+interface States {
   intro?: string;
   tagline?: string;
   theme?: string | ThemeType;
   links?: Links[];
   devToolsOpen: boolean;
+  devToolsOpenText: string;
 }
 
 interface Links {
@@ -48,13 +42,15 @@ interface Config {
  */
 declare function config(platform: IPlatform, Themes: Themes_): Config;
 
-class App extends Component<{}, State> {
+class App extends Component<{}, States> {
   private log: InternalLogger;
+  public displayName: string = "Application";
 
   public constructor(props: any) {
     super(props);
     this.state = {
       devToolsOpen: false,
+      devToolsOpenText: "Turn off DevTools",
     };
 
     this.log = new Dom.Logger(this.constructor.name);
@@ -88,29 +84,21 @@ class App extends Component<{}, State> {
 
     if (process.env.NODE_ENV === "production") {
       addListener((isOpen) => this.setState({ devToolsOpen: isOpen }));
-      this.log.info<JSX.Element>(
-        <div style={{ color: "red", fontStyle: "bold" }}>
-          Running in production mode!
-        </div>
-      );
+      this.log.info<JSX.Element>(<div style={{ color: "red", fontStyle: "bold" }}>Running in production mode!</div>);
       launch();
     } else {
-      this.log.info<JSX.Element>(
-        <div style={{ color: "red", fontStyle: "bold" }}>
-          Running in development mode!
-        </div>
-      );
+      this.log.info<JSX.Element>(<div style={{ color: "red", fontStyle: "bold" }}>Running in development mode!</div>);
     }
   };
 
   public render = () => {
-    const { intro, tagline, links, devToolsOpen } = this.state;
+    const { intro, tagline, links, devToolsOpen, devToolsOpenText } = this.state;
 
     if (devToolsOpen) {
       return (
         <main>
           <div key="intro" className="intro">
-            Turn off DevTools
+            {devToolsOpenText ? devToolsOpenText : "Turn off DevTools"}
           </div>
         </main>
       );
@@ -126,14 +114,7 @@ class App extends Component<{}, State> {
           <LinkWrapper key="icons-social">
             {links?.map((item: Links) => {
               if (!item?.hide) {
-                return (
-                  <LinkIcon
-                    key={item?.icon}
-                    link={item?.link}
-                    icon={item?.icon}
-                    title={item?.title}
-                  />
-                );
+                return <LinkIcon key={item?.icon} link={item?.link} icon={item?.icon} title={item?.title} />;
               } else {
                 return null;
               }
@@ -143,31 +124,6 @@ class App extends Component<{}, State> {
       );
     }
   };
-
-  public componentDidCatch = (error: Error, errorInfo: ErrorInfo) => {
-    const container = document.querySelector("app");
-    const root = createRoot(container!);
-    root.render(
-      <>
-        <div className="intro">{error.toString()}</div>
-        <div className="tagline">{errorInfo.toString()}</div>
-      </>
-    );
-  };
-
-  public static render(component: ReactNode, prevents: Array<string>) {
-    const { name } = pkg;
-    const en = _encode(name);
-    // Setup root node where our React app will be attached to
-    const app = document.createElement(en);
-    document.body.prepend(app);
-
-    // Render the app component
-    const container = document.querySelector<Element>(en);
-    const root = createRoot(container!);
-    root.render(component);
-    Dom.preventer(prevents);
-  }
 }
 
 export default App;
