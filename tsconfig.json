@@ -15,10 +15,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "jsx": "react-jsx",
-    "paths": {
-      "path>web": ["./src/util/path.ts"]
-    }
+    "jsx": "react-jsx"
   },
   "ts-node": {
     "compilerOptions": {

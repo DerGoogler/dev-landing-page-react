@@ -70,9 +70,6 @@ const config: Configuration = {
   resolve: {
     modules: ["node_modules", join(process.env.NPM_CONFIG_PREFIX || __dirname, "lib/node_modules")],
     extensions: [".js", ".jsx", ".ts", ".tsx", ".scss", ".sass"],
-    alias: {
-      "path>web": resolve(__dirname, "src/util/path.ts"),
-    },
   },
 };
 
