@@ -1,4 +1,4 @@
-import { Dom as dom } from "googlers-tools";
+import { dom } from "googlers-tools";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import App from "./App";

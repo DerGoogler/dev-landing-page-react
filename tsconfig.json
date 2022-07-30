@@ -22,5 +22,5 @@
       "module": "CommonJS"
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./node_modules/googlers-tools/*"]
 }
