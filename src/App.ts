@@ -4,10 +4,12 @@ import { ThemeType } from "./util/themeSelector";
 import { _decode, _encode } from "bota64/lib/cjs/core";
 import ThemeSelector from "./util/themeSelector";
 import yaml from "js-yaml";
-import { JR, link } from "googlers-tools";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import jr, { JR } from "jrgt";
+import { link } from "googlers-tools";
 
 interface States {
+  footer?: JR.JRNode[];
   intro?: string;
   tagline?: string;
   theme?: string | ThemeType;
@@ -54,12 +56,12 @@ class App extends JR.Component<{}, States> {
   }
 
   public jrender(): JR.JRNode[] {
-    const { links, intro, tagline, theme, devToolsOpen, devToolsOpenText } = this.state;
+    const { links, intro, tagline, theme, devToolsOpen, devToolsOpenText, footer } = this.state;
     if (devToolsOpen) {
       return [
         {
           main: {
-            children: JR.r([
+            children: jr.r([
               {
                 div: {
                   key: "intro",
@@ -75,7 +77,7 @@ class App extends JR.Component<{}, States> {
       return [
         {
           main: {
-            children: JR.r([
+            children: jr.r([
               {
                 div: {
                   key: "intro",
@@ -95,7 +97,7 @@ class App extends JR.Component<{}, States> {
                 div: {
                   key: "icons-social",
                   className: "icons-social",
-                  children: JR.rn((r, mc) => {
+                  children: jr.rn((r, mc) => {
                     return links?.map((item: Links) => {
                       return r([
                         {
@@ -118,6 +120,12 @@ class App extends JR.Component<{}, States> {
                       ]);
                     }) as any;
                   }),
+                },
+              },
+              {
+                div: {
+                  className: "footer",
+                  children: jr.r(footer ? footer : []),
                 },
               },
             ]),

@@ -1,16 +1,30 @@
 ---
-intro: Sample Name
-tagline: Cool | Frontend | Backend
-theme:
-  "@global":
-    main:
-      background: "#0076ff"
-      color: "#fff"
-    ".iconColor":
-      color: "#fff"
+intro: Der_Googler
+tagline: Frontend-Dev | Android Modder | Bullshit
+theme: red-black
 links:
   - icon: github
     link: https://github.com/DerGoogler
   - icon: instagram
-    hideIn: Instagram
     link: https://instagram.com/der_googler
+    hideIn: Instagram
+  - icon: telegram
+    link: https://t.me/Der_Googler
+  - icon: snapchat
+    link: https://snapchat.com/add/Der_Googler
+  - icon: html5
+    link: https://urmom.doesnt-want-to.party/watch?v=MinVUPVp_uc
+    title: "UR MOM DOESN'T WANT TO PARTY"
+  - icon: tiktok
+    link: https://tiktok.com/@Der_Googler
+# Allow element creation by JRGT
+footer:
+  - span:
+      style:
+        paddingTop: 8
+        display: block
+      children: JRGT Framework by Der_Googler
+  - span:
+      style:
+        display: block
+      children: Design by flexdinesh
